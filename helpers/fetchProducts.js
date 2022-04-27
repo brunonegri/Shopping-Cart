@@ -1,16 +1,11 @@
-const baseUrl = 'https://api.mercadolibre.com/sites/MLB/search?q=computador';
+const baseUrl = 'https://api.mercadolibre.com/sites/MLB/search?q=';
 
-const fetchProducts = async () => {
+const fetchProducts = async (parametro) => {
   // seu código aqui
-  const callFetch = await fetch(baseUrl);
+  const url = `${baseUrl}${parametro}`;
+  const callFetch = await fetch(url);
   const fetchJson = await callFetch.json();
-  const data = fetchJson.results;
-  const objData = data.map((obj) => ({
-    sku: obj.id,
-    name: obj.title,
-    image: obj.thumbnail,
-  }));
-  return objData;
+  return fetchJson;
 };
 
 if (typeof module !== 'undefined') {
