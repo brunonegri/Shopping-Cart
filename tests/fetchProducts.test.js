@@ -22,10 +22,11 @@ describe('1 - Teste a função fecthProducts', () => {
     const data = await fetchProducts('computador')
     expect(computadorSearch).toBe(data)
   })
+
+  // REJECTS https://jestjs.io/pt-BR/docs/asynchronous#asyncawait
   it('Teste se, ao chamar a função fetchProducts sem argumento, retorna um erro com a mensagem: You must provide an url', async ()=>{
     await expect(fetchProducts()).rejects.toThrowError(
       new Error('You must provide an url')
     )
   })
-
 });
