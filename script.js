@@ -25,6 +25,13 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
+function loading() {
+  const section = document.createElement('section');
+  section.className = 'item';
+  section.innerText = 'carregando';
+
+  return section;
+}
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
@@ -50,13 +57,14 @@ const products = async () => {
     name: obj.title,
     image: obj.thumbnail,
   }));
-  // console.log(objData);
+  objData.forEach(() => {
+    waySectionItems.appendChild(loading());
+  });
+  waySectionItems.innerHTML = '';
   objData.forEach((produto) => {
       waySectionItems.appendChild(createProductItemElement(produto));
     });
 };
-
-console.log(fetchProducts());
 
 window.onload = () => {
   products();
