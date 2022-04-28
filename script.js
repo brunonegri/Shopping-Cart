@@ -1,7 +1,18 @@
 const waySectionItems = document.querySelector('.items');
-// const wayBtnItems = document.querySelectorAll('.item__add');
-// console.log(wayBtnItems);
 const wayCartItems = document.querySelector('.cart__items');
+const wayBtnClearCart = document.querySelector('.empty-cart');
+
+async function setLoading() {
+  const elemento = document.createElement('section');
+  elemento.className = 'loading';
+  elemento.innerHTML = 'carregando...';
+  const arrayProducts = await fetchProducts('computador');
+  const getItems = arrayProducts.results;
+  // console.log(getItems);
+  getItems.forEach(() => {
+    waySectionItems.appendChild(elemento);
+  });
+}
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -50,9 +61,7 @@ async function productCart(event) {
   // coloque seu código aqui
   const node = event.target.parentNode;
   const selectedId = getSkuFromProductItem(node);
-  console.log(selectedId);
   const getId = await fetchItem(selectedId);
-  console.log(getId);
   const objCart = {
     sku: getId.id,
     name: getId.title,
@@ -64,6 +73,7 @@ async function productCart(event) {
 
 const products = async () => {
   const arrayProducts = await fetchProducts('computador');
+  waySectionItems.innerHTML = '';
   const getItems = arrayProducts.results;
   const objData = getItems.map((obj) => ({
     sku: obj.id,
@@ -73,12 +83,20 @@ const products = async () => {
   objData.forEach((produto) => {
       waySectionItems.appendChild(createProductItemElement(produto));
     });
+  
   const wayBtnItems = document.querySelectorAll('.item__add');
   wayBtnItems.forEach((button) => button.addEventListener('click', productCart));
 };
 
+function emptyCart() {
+  wayCartItems.innerHTML = '';
+}
+
+wayBtnClearCart.addEventListener('click', emptyCart);
+
 window.onload = async () => {
-  products();
+  setLoading();
+  await products();
   if (localStorage.length > 0) {
     const recuperado = JSON.parse(localStorage.getItem('cart'));
     wayCartItems.innerHTML = recuperado;
