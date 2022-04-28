@@ -9,7 +9,7 @@ const fetchItem = async (parametro) => {
   return fecthJson;
 };
 
-// console.log(fetchItem('MLB1615760527'));
+// console.log(fetchItem('MLB1341706310'));
 
 if (typeof module !== 'undefined') {
   module.exports = {

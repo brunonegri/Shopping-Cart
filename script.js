@@ -1,4 +1,7 @@
 const waySectionItems = document.querySelector('.items');
+// const wayBtnItems = document.querySelectorAll('.item__add');
+// console.log(wayBtnItems);
+const wayCartItems = document.querySelector('.cart__items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -25,20 +28,25 @@ function createProductItemElement({ sku, name, image }) {
 
   return section;
 }
-function loading() {
-  const section = document.createElement('section');
-  section.className = 'item';
-  section.innerText = 'carregando';
-
-  return section;
-}
 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
 
-function cartItemClickListener(event) {
+async function cartItemClickListener(event) {
   // coloque seu código aqui
+  const node = event.target.parentNode;
+  const selectedId = getSkuFromProductItem(node);
+  console.log(selectedId);
+  const getId = await fetchItem(selectedId);
+  console.log(getId);
+  const objCart = {
+    sku: getId.id,
+    name: getId.title,
+    salePrice: getId.price,
+  };
+  wayCartItems.appendChild(createCartItemElement(objCart));
+  // return objCart;
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -57,15 +65,18 @@ const products = async () => {
     name: obj.title,
     image: obj.thumbnail,
   }));
-  objData.forEach(() => {
-    waySectionItems.appendChild(loading());
-  });
-  waySectionItems.innerHTML = '';
   objData.forEach((produto) => {
       waySectionItems.appendChild(createProductItemElement(produto));
     });
+  const wayBtnItems = document.querySelectorAll('.item__add');
+  wayBtnItems.forEach((button) => button.addEventListener('click', cartItemClickListener));
 };
 
-window.onload = () => {
+// const productCart = async () => {
+//  await wayCartItems.appendChild(createCartItemElement(cartItemClickListener));
+// };
+
+window.onload = async () => {
   products();
+  // productCart();
 };
