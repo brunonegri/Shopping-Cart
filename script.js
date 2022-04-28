@@ -59,6 +59,7 @@ async function productCart(event) {
     salePrice: getId.price,
   };
   wayCartItems.appendChild(createCartItemElement(objCart));
+  localStorage.setItem('cart', JSON.stringify(wayCartItems.innerHTML));
 }
 
 const products = async () => {
@@ -78,4 +79,9 @@ const products = async () => {
 
 window.onload = async () => {
   products();
+  if (localStorage.length > 0) {
+    const recuperado = JSON.parse(localStorage.getItem('cart'));
+    wayCartItems.innerHTML = recuperado;
+  }
+  localStorage.getItem('cart');
 };
