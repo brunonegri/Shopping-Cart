@@ -1,6 +1,7 @@
 const waySectionItems = document.querySelector('.items');
 const wayCartItems = document.querySelector('.cart__items');
 const wayBtnClearCart = document.querySelector('.empty-cart');
+const waySumPrice = document.querySelector('.total-price');
 
 async function setLoading() {
   const elemento = document.createElement('section');
@@ -46,7 +47,7 @@ function getSkuFromProductItem(item) {
 
 async function cartItemClickListener(event) {
   // coloque seu código aqui
-
+  
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -67,8 +68,11 @@ async function productCart(event) {
     name: getId.title,
     salePrice: getId.price,
   };
+  waySumPrice.innerHTML = Number(objCart.salePrice) + Number(waySumPrice.innerHTML);
+
   wayCartItems.appendChild(createCartItemElement(objCart));
   localStorage.setItem('cart', JSON.stringify(wayCartItems.innerHTML));
+  localStorage.setItem('cartPrice', JSON.stringify(waySumPrice.innerHTML));
 }
 
 const products = async () => {
@@ -90,6 +94,7 @@ const products = async () => {
 
 function emptyCart() {
   wayCartItems.innerHTML = '';
+  waySumPrice.innerHTML = 0;
 }
 
 wayBtnClearCart.addEventListener('click', emptyCart);
@@ -98,8 +103,10 @@ window.onload = async () => {
   setLoading();
   await products();
   if (localStorage.length > 0) {
-    const recuperado = JSON.parse(localStorage.getItem('cart'));
-    wayCartItems.innerHTML = recuperado;
+    const cartPrice = JSON.parse(localStorage.getItem('cartPrice'));
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    wayCartItems.innerHTML = cart;
+    waySumPrice.innerHTML = cartPrice;
   }
   localStorage.getItem('cart');
 };
