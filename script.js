@@ -35,6 +35,19 @@ function getSkuFromProductItem(item) {
 
 async function cartItemClickListener(event) {
   // coloque seu código aqui
+
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  return li;
+}
+
+async function productCart(event) {
+  // coloque seu código aqui
   const node = event.target.parentNode;
   const selectedId = getSkuFromProductItem(node);
   console.log(selectedId);
@@ -46,15 +59,6 @@ async function cartItemClickListener(event) {
     salePrice: getId.price,
   };
   wayCartItems.appendChild(createCartItemElement(objCart));
-  // return objCart;
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
 }
 
 const products = async () => {
@@ -69,14 +73,9 @@ const products = async () => {
       waySectionItems.appendChild(createProductItemElement(produto));
     });
   const wayBtnItems = document.querySelectorAll('.item__add');
-  wayBtnItems.forEach((button) => button.addEventListener('click', cartItemClickListener));
+  wayBtnItems.forEach((button) => button.addEventListener('click', productCart));
 };
-
-// const productCart = async () => {
-//  await wayCartItems.appendChild(createCartItemElement(cartItemClickListener));
-// };
 
 window.onload = async () => {
   products();
-  // productCart();
 };
