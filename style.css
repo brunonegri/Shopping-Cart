@@ -155,7 +155,7 @@ body {
   border: 1px solid gray;
 }
 
-.cart__item{
+.cart__item {
   display: flex;
   align-items: center;
   margin: 30px;
