@@ -2,17 +2,13 @@ const waySectionItems = document.querySelector('.items');
 const wayCart = document.querySelector('.cart__items');
 const wayBtnClearCart = document.querySelector('.empty-cart');
 const waySumPrice = document.querySelector('.total-price');
+const wayCartItems = document.querySelectorAll('.cart__item');
 
 async function setLoading() {
   const elemento = document.createElement('section');
   elemento.className = 'loading';
   elemento.innerHTML = 'carregando...';
-  const arrayProducts = await fetchProducts('computador');
-  const getItems = arrayProducts.results;
-  // console.log(getItems);
-  getItems.forEach(() => {
-    waySectionItems.appendChild(elemento);
-  });
+  waySectionItems.appendChild(elemento);
 }
 
 function createProductImageElement(imageSource) {
@@ -51,10 +47,15 @@ async function cartItemClickListener(event) {
   wayCart.removeChild(alvo);
 }
 
-function createCartItemElement({ sku, name, salePrice }) {
+function createCartItemElement({ sku, name, salePrice, image }) {
   const li = document.createElement('li');
+  const imagem = document.createElement('img');
+  imagem.src = image;
+  imagem.className = 'img-cart';
+  
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.appendChild(imagem);
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
@@ -68,12 +69,13 @@ async function productCart(event) {
     sku: getId.id,
     name: getId.title,
     salePrice: getId.price,
+    image: getId.thumbnail,
   };
+
   waySumPrice.innerHTML = parseFloat(objCart.salePrice) + parseFloat(waySumPrice.innerHTML);
 
   wayCart.appendChild(createCartItemElement(objCart));
-  localStorage.setItem('cart', JSON.stringify(wayCart.innerHTML));
-  localStorage.setItem('cartPrice', JSON.stringify(waySumPrice.innerHTML));
+  saveCartItems(wayCart.innerHTML);
 }
 
 const products = async () => {
@@ -98,17 +100,13 @@ function emptyCart() {
   waySumPrice.innerHTML = 0;
   localStorage.clear();
 }
+console.log(wayCartItems);
 
 wayBtnClearCart.addEventListener('click', emptyCart);
 
 window.onload = async () => {
   setLoading();
   await products();
-  if (localStorage.length > 0) {
-    const cartPrice = JSON.parse(localStorage.getItem('cartPrice'));
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    wayCart.innerHTML = cart;
-    waySumPrice.innerHTML = cartPrice;
-  }
-  localStorage.getItem('cart');
+  wayCart.innerHTML = getSavedCartItems('cartItems'); 
+  wayCart.addEventListener('click', cartItemClickListener);
 };
