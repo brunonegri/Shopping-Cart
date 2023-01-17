@@ -14,7 +14,7 @@
 
 ## 💻 Detalhes do Projeto
 
-Projeto desenvolvido durante o curso da Trybe. Este projeto foi o ultimo do modúlo de fundamentos, o desafio era fazer o consumo da API do Mercado Livre e criar um ambiente de um carrinho de compras, no qual a pessoa usúaria poderia adicionar e remover produtos no carrinho e a soma dos produtos do carrinho ser automatica.
+Projeto desenvolvido durante o curso da Trybe. Este foi o ultimo projeto do modúlo de fundamentos realizado dia 28/04/22, o desafio era fazer o consumo da API do Mercado Livre e criar um ambiente de um carrinho de compras, no qual a pessoa usúaria poderia adicionar e remover produtos no carrinho e a soma dos produtos do carrinho ser automatica.
 
 ## 🚀 Foram utilizadas as seguintes tecnologias:
 
