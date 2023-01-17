@@ -26,6 +26,4 @@ Projeto desenvolvido durante o curso da Trybe. Este projeto foi o ultimo do mod√
 
 Para usar Shopping-Cart, basta acessar:
 
-```
 https://brnshopcart.netlify.app
-...
